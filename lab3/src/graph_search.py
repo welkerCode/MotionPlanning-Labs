@@ -17,6 +17,7 @@ _GOAL_COLOR = 0.75
 _INIT_COLOR = 0.25
 _PATH_COLOR_RANGE = _GOAL_COLOR-_INIT_COLOR
 _VISITED_COLOR = 0.9
+_REWARD_COLOR = .5
 cost_map = {'u': 1,'d': 1,'l': 1,'r': 1,'ne': 1.5,'nw': 1.5,'sw': 1.5,'se': 1.5}
 
 class GridMap:
@@ -172,6 +173,31 @@ class GridMap:
         imgplot.set_interpolation('nearest')
         # Set color map to diverging style for contrast
         imgplot.set_cmap('spectral')
+        plotter.show()
+
+    def display_ValueIterMap(self, rewardDict = {}):
+        '''
+        Visualize the map read in. Optionally display the resulting plan and visisted nodes
+
+        path - a list of tuples describing the path take from init to goal
+        visited - a set of tuples describing the states visited during a search
+        '''
+        display_grid = np.array(self.occupancy_grid, dtype=np.float32)
+
+        # Add all of the reward values to the table
+        for state in rewardDict:
+            plotter.text(state[1]+.5,state[0]+.5,rewardDict.get(state), ha='center',va='center',fontsize=10,color='blue')
+
+        print("Dimensions: ", self.rows, "x", self.cols)
+        plotter.axis('scaled')                  # Makes sides of squares even
+        v = [0, self.cols, self.rows,0]         # Sets the limits of the axis
+        plotter.axis(v)                         # Sets axis limits and direction
+        plotter.grid(True)                      # Places grid lines
+        plotter.xticks(range(0,self.cols,1))    # Sets the ticks of the x axis
+        plotter.yticks(range(0,self.rows,1))    # Sets the ticks of the y axis
+        # https://stackoverflow.com/questions/19427188/understanding-matplotlib-xticks-syntax
+
+        # Plot display grid for visualization
         plotter.show()
 
     def euclidean_heuristic(self, s):

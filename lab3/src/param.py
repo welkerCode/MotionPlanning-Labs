@@ -8,3 +8,8 @@ _ACTION_TYPE = 'else'       # 'lateral' for lateral movements only (parts 1.1 an
                             # 'else' to include both lateral and diagonal movements (part 1.4)
 
 _COMPLETION_PROB = .8       # This is the probability of a successful movement
+_GOAL_REWARD = 10           #
+_CORNER_REWARD = -5
+_OTHER_STATE_REWARD = -1
+_DISCOUNT_FACTOR = 0.8      # Lambda (discount factor)
+_NUM_ITER = 10              #

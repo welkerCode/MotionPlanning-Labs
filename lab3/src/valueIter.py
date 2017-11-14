@@ -1,4 +1,69 @@
-def calcStateVal(lambda, transitionModel):
+from param import _GOAL_REWARD
+from param import _CORNER_REWARD
+from param import _OTHER_STATE_REWARD
+from param import _DISCOUNT_FACTOR
+from param import _NUM_ITER
+from param import _LIST_SWITCH
+from param import _COMPLETION_PROB
+from param import _ACTION_TYPE
+from graph_search import _ACTIONS
+from mdp import getTransition
+
+# This function is called before entering any iterations; it sets up the initial table
+def initTable(gm):
+
+    d = {}  # Create a new dictionary
+
+    for x in range(0, gm.rows):
+        for y in range(0, gm.cols):
+
+            # For every spot on the map
+            if not gm.occupancy_grid[x][y]:
+                startingVal = getStartingReward((x,y), gm)  # Get the starting reward value for that spot
+                d[(x,y)] = startingVal                      # Add it to the dictionary
+
+    return d    # Return the dictionary when you are done
+
+
+# This function runs the valueIteration on the specified map
+def valueIter(gm):
+    '''
+
+    Pseudocode:
+        create 2 dictionaries, one for the previous iteration's data, and one to hold the new data
+        for every iteration
+            for every state in the dictionary
+                calculate vg
+                update the dictionary
+                    dictionary{state:reward}
+            advance the dictionaries
+            print the table
+        print the final table
+    '''
+
+    # Create the two dictionaries
+    prevIterTable = initTable(gm)   # Fill the prevIteration Dictionary with the initial reward values
+    newIterTable = {}               # Initialize a new, empty dictionary
+
+    for iter in range(0, _NUM_ITER):
+        # For every iteration up to the limit we specified
+
+        for x in range(0, gm.cols):
+            for y in range(0, gm.rows):
+                # For every location in the map
+
+                for action in _ACTIONS:
+                    # For every possible action at that location?????????
+
+                    transList = getTransition(_LIST_SWITCH,_ACTION_TYPE,(x,y),gm.transition,action,_COMPLETION_PROB) # Get the transition model
+                    vg = calcStateVal(transList, gm, prevIterTable) # Calculate Vg
+                    newIterTable[(x,y)] = vg                        # Add the Vg to the dictionary that holds new information for the current iteration
+
+        # After going through all of the states on the map for that iteration
+        prevIterTable = newIterTable    # Set the recently completed dictionary as the old dictionary
+        newIterTable = {}               # Initialize a new dictionary
+
+def calcStateVal(currentState, transitionModel, gridMap, stateDictionary):
     '''
     for every possible new state
         find the probability of going to that state
@@ -9,9 +74,42 @@ def calcStateVal(lambda, transitionModel):
     table of states?
 
 
+
+    Vs = rs + lambda*sum(prob + reward)
+
+    rs = LAST ITER VALUE
+    sumOfIter = 0
+    for transition in transitionModel:
+        state = transition[0]
+        prob = transition[1]
+        reward = getReward(state, gm)
+        sumOfIter += prob*reward
+    Vg = rs + _DISCOUNT_FACTOR*sumOfIter
+    return Vg or store in dictionary
+
+
     :param transitionModel:
     :return:
     '''
+    rs = stateDictionary.get(currentState)
+    sumOfIter = 0
+    for transition in transitionModel:
+        newState = transition[0]
+        prob = transition[1]
+        reward = stateDictionary.get(newState)
+        sumOfIter += prob*reward
+    vg = rs + _DISCOUNT_FACTOR*sumOfIter
+    return vg
+
+
+# This calculates the starting reward based upon the location of the state
+def getStartingReward(state, gridMap):
+    if gridMap.is_goal(state):
+        return _GOAL_REWARD
+    elif state == (0,0) or state == (0, gridMap.rows - 1) or state == (gridMap.cols - 1, 0) or state == (gridMap.cols - 1, gridMap.rows - 1):
+        return _CORNER_REWARD
+    else:
+        return _OTHER_STATE_REWARD
 
 stateVal = {}
 
