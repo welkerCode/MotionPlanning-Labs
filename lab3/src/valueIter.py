@@ -52,12 +52,15 @@ def valueIter(gm):
             for x in range(0, gm.rows):
                 # For every location in the map
                 if gm.occupancy_grid[x][y] == False:
+                    maxVg = None
                     for action in _ACTIONS:
                         # For every possible action at that location?????????
 
                         transList = getTransition(_LIST_SWITCH,_ACTION_TYPE,(x,y),gm.transition,action,_COMPLETION_PROB) # Get the transition model
-                        vg = calcStateVal((x,y),transList, prevIterTable) # Calculate Vg
-                        newIterTable[(x,y)] = vg                        # Add the Vg to the dictionary that holds new information for the current iteration
+                        vgnew = calcStateVal((x,y),transList, prevIterTable) # Calculate Vg
+                        if maxVg is None or maxVg < vgnew:
+                            maxVg = vgnew
+                    newIterTable[(x,y)] = maxVg                        # Add the Vg to the dictionary that holds new information for the current iteration
 
         # After going through all of the states on the map for that iteration
         prevIterTable = newIterTable    # Set the recently completed dictionary as the old dictionary
