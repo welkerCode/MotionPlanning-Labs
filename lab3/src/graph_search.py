@@ -188,7 +188,6 @@ class GridMap:
         for state in rewardDict:
             plotter.text(state[1]+.5,state[0]+.5,rewardDict.get(state), ha='center',va='center',fontsize=10,color='blue')
 
-        print("Dimensions: ", self.rows, "x", self.cols)
         plotter.axis('scaled')                  # Makes sides of squares even
         v = [0, self.cols, self.rows,0]         # Sets the limits of the axis
         plotter.axis(v)                         # Sets axis limits and direction

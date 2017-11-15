@@ -48,22 +48,23 @@ def valueIter(gm):
     for iter in range(0, _NUM_ITER):
         # For every iteration up to the limit we specified
 
-        for x in range(0, gm.cols):
-            for y in range(0, gm.rows):
+        for y in range(0, gm.cols):
+            for x in range(0, gm.rows):
                 # For every location in the map
+                if gm.occupancy_grid[x][y] == False:
+                    for action in _ACTIONS:
+                        # For every possible action at that location?????????
 
-                for action in _ACTIONS:
-                    # For every possible action at that location?????????
-
-                    transList = getTransition(_LIST_SWITCH,_ACTION_TYPE,(x,y),gm.transition,action,_COMPLETION_PROB) # Get the transition model
-                    vg = calcStateVal(transList, gm, prevIterTable) # Calculate Vg
-                    newIterTable[(x,y)] = vg                        # Add the Vg to the dictionary that holds new information for the current iteration
+                        transList = getTransition(_LIST_SWITCH,_ACTION_TYPE,(x,y),gm.transition,action,_COMPLETION_PROB) # Get the transition model
+                        vg = calcStateVal((x,y),transList, prevIterTable) # Calculate Vg
+                        newIterTable[(x,y)] = vg                        # Add the Vg to the dictionary that holds new information for the current iteration
 
         # After going through all of the states on the map for that iteration
         prevIterTable = newIterTable    # Set the recently completed dictionary as the old dictionary
         newIterTable = {}               # Initialize a new dictionary
+    gm.display_ValueIterMap(prevIterTable)
 
-def calcStateVal(currentState, transitionModel, gridMap, stateDictionary):
+def calcStateVal(currentState, transitionModel, stateDictionary):
     '''
     for every possible new state
         find the probability of going to that state
@@ -98,6 +99,7 @@ def calcStateVal(currentState, transitionModel, gridMap, stateDictionary):
         prob = transition[1]
         reward = stateDictionary.get(newState)
         sumOfIter += prob*reward
+
     vg = rs + _DISCOUNT_FACTOR*sumOfIter
     return vg
 
@@ -106,7 +108,7 @@ def calcStateVal(currentState, transitionModel, gridMap, stateDictionary):
 def getStartingReward(state, gridMap):
     if gridMap.is_goal(state):
         return _GOAL_REWARD
-    elif state == (0,0) or state == (0, gridMap.rows - 1) or state == (gridMap.cols - 1, 0) or state == (gridMap.cols - 1, gridMap.rows - 1):
+    elif state == (0,0) or state == (0, gridMap.cols - 1) or state == (gridMap.rows - 1, 0) or state == (gridMap.rows - 1, gridMap.cols - 1):
         return _CORNER_REWARD
     else:
         return _OTHER_STATE_REWARD

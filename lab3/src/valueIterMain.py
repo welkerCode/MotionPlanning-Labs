@@ -12,5 +12,7 @@ gm0 = GridMap("map0.txt")
 gm1 = GridMap("map1.txt")
 gm2 = GridMap("map2.txt")
 
-prevIterTable = initTable(gm1)  # Fill the prevIteration Dictionary with the initial reward values
-gm0.display_ValueIterMap(prevIterTable)
+#prevIterTable = initTable(gm0)          # Fill the prevIteration Dictionary with the initial reward values
+#gm0.display_ValueIterMap(prevIterTable)
+
+valueIter(gm0)
