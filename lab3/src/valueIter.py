@@ -42,6 +42,7 @@ def valueIter(gm):
     '''
 
     # Create the two dictionaries
+    origTable = initTable(gm)
     prevIterTable = initTable(gm)   # Fill the prevIteration Dictionary with the initial reward values
     newIterTable = {}               # Initialize a new, empty dictionary
 
@@ -57,7 +58,7 @@ def valueIter(gm):
                         # For every possible action at that location?????????
 
                         transList = getTransition(_LIST_SWITCH,_ACTION_TYPE,(x,y),gm.transition,action,_COMPLETION_PROB) # Get the transition model
-                        vgnew = calcStateVal((x,y),transList, prevIterTable) # Calculate Vg
+                        vgnew = calcStateVal((x,y),transList, prevIterTable, origTable) # Calculate Vg
                         if maxVg is None or maxVg < vgnew:
                             maxVg = vgnew
                     newIterTable[(x,y)] = maxVg                        # Add the Vg to the dictionary that holds new information for the current iteration
@@ -67,7 +68,7 @@ def valueIter(gm):
         newIterTable = {}               # Initialize a new dictionary
     gm.display_ValueIterMap(prevIterTable)
 
-def calcStateVal(currentState, transitionModel, stateDictionary):
+def calcStateVal(currentState, transitionModel, stateDictionary, origStateDictionary):
     '''
     for every possible new state
         find the probability of going to that state
@@ -95,7 +96,7 @@ def calcStateVal(currentState, transitionModel, stateDictionary):
     :param transitionModel:
     :return:
     '''
-    rs = stateDictionary.get(currentState)
+    rs = origStateDictionary.get(currentState)
     sumOfIter = 0
     for transition in transitionModel:
         newState = transition[0]
