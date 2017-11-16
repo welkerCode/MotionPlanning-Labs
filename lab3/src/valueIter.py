@@ -6,8 +6,11 @@ from param import _NUM_ITER
 from param import _LIST_SWITCH
 from param import _COMPLETION_PROB
 from param import _ACTION_TYPE
+from param import _EPSILON
 from graph_search import _ACTIONS
 from mdp import getTransition
+
+import numpy as np
 
 # This function is called before entering any iterations; it sets up the initial table
 def initTable(gm):
@@ -46,9 +49,12 @@ def valueIter(gm):
     prevIterTable = initTable(gm)   # Fill the prevIteration Dictionary with the initial reward values
     newIterTable = {}               # Initialize a new, empty dictionary
 
-    for iter in range(0, _NUM_ITER):
-        # For every iteration up to the limit we specified
+    convergence = False
+    iterationCount = 0
 
+    while convergence == False:
+        # For every iteration up to the limit we specified
+        iterationCount += 1
         for y in range(0, gm.cols):
             for x in range(0, gm.rows):
                 # For every location in the map
@@ -63,10 +69,22 @@ def valueIter(gm):
                             maxVg = vgnew
                     newIterTable[(x,y)] = maxVg                        # Add the Vg to the dictionary that holds new information for the current iteration
 
-        # After going through all of the states on the map for that iteration
+        # After going through all of the states on the map for that iteration, check the epsilon change for convergence
+        convergence = True
+        for state in prevIterTable:
+            oldVal = prevIterTable.get(state)
+            newVal = newIterTable.get(state)
+            # If we find a state that hasn't converged yet
+            if np.abs(oldVal - newVal) > _EPSILON:
+                convergence = False     # Stay in the loop
+        # Update the two dictionaries
         prevIterTable = newIterTable    # Set the recently completed dictionary as the old dictionary
         newIterTable = {}               # Initialize a new dictionary
+
+    print("Number of Iterations: ", iterationCount)
     gm.display_ValueIterMap(prevIterTable)
+
+
 
     # Now, I have to determine the policy of each state on the map
     policyDict = getPolicyDict(prevIterTable, gm)

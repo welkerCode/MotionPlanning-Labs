@@ -215,7 +215,7 @@ class GridMap:
         plotter.grid(True)  # Places grid lines
         plotter.xticks(range(0, self.cols, 1))  # Sets the ticks of the x axis
         plotter.yticks(range(0, self.rows, 1))  # Sets the ticks of the y axis
-
+        '''
         for r in range(0,self.rows):
             for c in range(0,self.cols):
                 if self.occupancy_grid[r][c] == True:
@@ -224,17 +224,21 @@ class GridMap:
         # Plot display grid for visualization
         imgplot = plotter.imshow(display_grid)
         imgplot.set_interpolation('nearest')
-
+        '''
         # Add all of the reward values to the table
         for state in policyDict:
-            if policyDict.get(state) == 'u':
-                plotter.arrow(state[1] + .5, state[0] + .25, 0, -.5, shape='full', length_includes_head=True, head_width=.1, hold=None)
-            elif policyDict.get(state) == 'd':
-                plotter.arrow(state[1] + .5, state[0] + .75, 0, .5, shape='full', length_includes_head=True, head_width=.1, hold=None)
-            elif policyDict.get(state) == 'l':
-                plotter.arrow(state[1] + .25, state[0] + .5, -.5, 0, shape='full', length_includes_head=True, head_width=.1, hold=None)
-            elif policyDict.get(state) == 'r':
-                plotter.arrow(state[1] + .75, state[0] + .5, .5, 0, shape='full', length_includes_head=True, head_width=.1, hold=None)
+            if self.is_goal(state):
+                # Do not print any arrows
+                print('')
+            else:
+                if policyDict.get(state) == 'u':
+                    plotter.arrow(state[1] + .5, state[0] + .25, 0, -.5, shape='full', length_includes_head=True, head_width=.1, hold=None)
+                elif policyDict.get(state) == 'd':
+                    plotter.arrow(state[1] + .5, state[0] + .75, 0, .5, shape='full', length_includes_head=True, head_width=.1, hold=None)
+                elif policyDict.get(state) == 'l':
+                    plotter.arrow(state[1] + .25, state[0] + .5, -.5, 0, shape='full', length_includes_head=True, head_width=.1, hold=None)
+                elif policyDict.get(state) == 'r':
+                    plotter.arrow(state[1] + .75, state[0] + .5, .5, 0, shape='full', length_includes_head=True, head_width=.1, hold=None)
 
             # https://stackoverflow.com/questions/7947532/how-to-use-pyplot-arrow-or-patches-arrow-in-matplotlib
 
