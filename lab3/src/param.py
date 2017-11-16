@@ -12,4 +12,4 @@ _GOAL_REWARD = 10           #
 _CORNER_REWARD = 0
 _OTHER_STATE_REWARD = 0
 _DISCOUNT_FACTOR = 0.8      # Lambda (discount factor)
-_NUM_ITER = 1000             #
+_NUM_ITER = 10             #

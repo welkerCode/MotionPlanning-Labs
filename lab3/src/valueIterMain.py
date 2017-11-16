@@ -15,4 +15,4 @@ gm2 = GridMap("map2.txt")
 #prevIterTable = initTable(gm0)          # Fill the prevIteration Dictionary with the initial reward values
 #gm0.display_ValueIterMap(prevIterTable)
 
-valueIter(gm0)
+valueIter(gm1)

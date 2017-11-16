@@ -68,6 +68,10 @@ def valueIter(gm):
         newIterTable = {}               # Initialize a new dictionary
     gm.display_ValueIterMap(prevIterTable)
 
+    # Now, I have to determine the policy of each state on the map
+    policyDict = getPolicyDict(prevIterTable, gm)
+    gm.display_PolicyMap(policyDict)
+
 def calcStateVal(currentState, transitionModel, stateDictionary, origStateDictionary):
     '''
     for every possible new state
@@ -107,6 +111,22 @@ def calcStateVal(currentState, transitionModel, stateDictionary, origStateDictio
     vg = rs + _DISCOUNT_FACTOR*sumOfIter
     return vg
 
+def getPolicyDict(previousIterTable, gm):
+    policyDict = {}
+    for y in range(0, gm.cols):
+        for x in range(0, gm.rows):
+            # For every location in the map
+            if gm.occupancy_grid[x][y] == False:
+                desiredAction = None
+                desiredActionVal = None
+                for action in _ACTIONS:
+                    newState = gm.transition((x,y),action)
+                    newActionVal = previousIterTable.get(newState)
+                    if desiredAction == None or desiredActionVal == None or desiredActionVal < newActionVal:
+                        desiredActionVal = newActionVal
+                        desiredAction = action
+                policyDict[(x,y)] = desiredAction
+    return policyDict
 
 # This calculates the starting reward based upon the location of the state
 def getStartingReward(state, gridMap):
