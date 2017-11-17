@@ -14,7 +14,7 @@ from mdp import getTransition
 import numpy as np
 
 # This function is called before entering any iterations; it sets up the initial table
-def initTable(gm):
+def initValueTable(gm):
 
     d = {}  # Create a new dictionary
 
@@ -46,8 +46,8 @@ def valueIter(gm):
     '''
 
     # Create the two dictionaries
-    origTable = initTable(gm)
-    prevIterTable = initTable(gm)   # Fill the prevIteration Dictionary with the initial reward values
+    origTable = initValueTable(gm)
+    prevIterTable = initValueTable(gm)   # Fill the prevIteration Dictionary with the initial reward values
     newIterTable = {}               # Initialize a new, empty dictionary
 
     convergence = False
