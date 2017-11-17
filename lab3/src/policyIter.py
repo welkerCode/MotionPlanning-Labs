@@ -60,6 +60,6 @@ def initRandomPolicy(gridMap):
 
 def computeValue():
 
-def updatePolicy():
-    
+def getPolicyDict():
+    # Defined in valueIter.py
 
