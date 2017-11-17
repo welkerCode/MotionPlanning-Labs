@@ -239,7 +239,14 @@ class GridMap:
                     plotter.arrow(state[1] + .25, state[0] + .5, -.5, 0, shape='full', length_includes_head=True, head_width=.1, hold=None)
                 elif policyDict.get(state) == 'r':
                     plotter.arrow(state[1] + .75, state[0] + .5, .5, 0, shape='full', length_includes_head=True, head_width=.1, hold=None)
-
+                elif policyDict.get(state) == 'nw':
+                    plotter.arrow(state[1] + .25, state[0] + .25, -.5, -.5, shape='full', length_includes_head=True, head_width=.1, hold=None)
+                elif policyDict.get(state) == 'ne':
+                    plotter.arrow(state[1] + .75, state[0] + .25, .5, -.5, shape='full', length_includes_head=True, head_width=.1, hold=None)
+                elif policyDict.get(state) == 'sw':
+                    plotter.arrow(state[1] + .25, state[0] + .75, -.5, .5, shape='full', length_includes_head=True, head_width=.1, hold=None)
+                elif policyDict.get(state) == 'se':
+                    plotter.arrow(state[1] + .75, state[0] + .75, .5, .5, shape='full', length_includes_head=True, head_width=.1, hold=None)
             # https://stackoverflow.com/questions/7947532/how-to-use-pyplot-arrow-or-patches-arrow-in-matplotlib
 
 

@@ -8,6 +8,7 @@ from param import _COMPLETION_PROB
 from param import _ACTION_TYPE
 from param import _EPSILON
 from graph_search import _ACTIONS
+from graph_search import _ACTIONS_2
 from mdp import getTransition
 
 import numpy as np
@@ -52,6 +53,11 @@ def valueIter(gm):
     convergence = False
     iterationCount = 0
 
+    if _ACTION_TYPE == 'lateral':
+        actions = _ACTIONS
+    else:
+        actions = _ACTIONS_2
+
     while convergence == False:
         # For every iteration up to the limit we specified
         iterationCount += 1
@@ -60,7 +66,7 @@ def valueIter(gm):
                 # For every location in the map
                 if gm.occupancy_grid[x][y] == False:
                     maxVg = None
-                    for action in _ACTIONS:
+                    for action in actions:
                         # For every possible action at that location?????????
 
                         transList = getTransition(_LIST_SWITCH,_ACTION_TYPE,(x,y),gm.transition,action,_COMPLETION_PROB) # Get the transition model
@@ -131,13 +137,19 @@ def calcStateVal(currentState, transitionModel, stateDictionary, origStateDictio
 
 def getPolicyDict(previousIterTable, gm):
     policyDict = {}
+
+    if _ACTION_TYPE == 'lateral':
+        actions = _ACTIONS
+    else:
+        actions = _ACTIONS_2
+
     for y in range(0, gm.cols):
         for x in range(0, gm.rows):
             # For every location in the map
             if gm.occupancy_grid[x][y] == False:
                 desiredAction = None
                 desiredActionVal = None
-                for action in _ACTIONS:
+                for action in actions:
                     newState = gm.transition((x,y),action)
                     newActionVal = previousIterTable.get(newState)
                     if desiredAction == None or desiredActionVal == None or desiredActionVal < newActionVal:
