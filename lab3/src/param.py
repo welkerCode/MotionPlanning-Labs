@@ -16,7 +16,7 @@ _DISCOUNT_FACTOR = 0.8      # Discount factor (lambda)
 _EPSILON = .001             # Determines the limit of convergence.  Set to .001 for my report.
 
 # Start using in Part 3 (Policy Iteration)
-_POLICY_INIT = 'direction'  # If 'direction', initial policy will be all one direction, if 'random', then random
+_POLICY_INIT = 'random'  # If 'direction', initial policy will be all one direction, if 'random', then random
 _POLICY_INIT_DIR = 'd'      # Use 'u' for 3.1 and 'd' for 3.2 (just like how the actions are defined in these labs)
 
 # Misc Parameters

@@ -251,9 +251,6 @@ class GridMap:
             # https://stackoverflow.com/questions/7947532/how-to-use-pyplot-arrow-or-patches-arrow-in-matplotlib
 
 
-
-        # https://stackoverflow.com/questions/19427188/understanding-matplotlib-xticks-syntax
-
         # Plot display grid for visualization
         plotter.show()
 

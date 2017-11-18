@@ -58,3 +58,15 @@ _OTHER_STATE_REWARD : should be 0 for this part
 _DISCOUNT_FACTOR : should be .8 for this part
 _POLICY_INIT : use 'direction' for parts 3.1 and 3.2 and 'random' for part 3.3
 _POLICY_INIT_DIR : use 'u' for 3.1 and 'd' for 3.2
+
+#########################################################################
+
+Resources/Bibliography to sites that helped me with the graphing functions:
+
+https://pyformat.info/
+
+https://stackoverflow.com/questions/19427188/understanding-matplotlib-xticks-syntax
+
+https://stackoverflow.com/questions/7947532/how-to-use-pyplot-arrow-or-patches-arrow-in-matplotlib
+
+
