@@ -2,7 +2,6 @@ from param import _GOAL_REWARD
 from param import _CORNER_REWARD
 from param import _OTHER_STATE_REWARD
 from param import _DISCOUNT_FACTOR
-from param import _NUM_ITER
 from param import _LIST_SWITCH
 from param import _COMPLETION_PROB
 from param import _ACTION_TYPE

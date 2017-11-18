@@ -6,6 +6,7 @@ import numpy as np
 import heapq
 import matplotlib.pyplot as plotter
 from math import hypot, fabs
+from param import _TEXT_SIZE
 
 _DEBUG = False
 _DEBUG_END = True
@@ -186,7 +187,7 @@ class GridMap:
 
         # Add all of the reward values to the table
         for state in rewardDict:
-            plotter.text(state[1]+.5,state[0]+.5,'%.3f' % rewardDict.get(state), ha='center',va='center',fontsize=8,color='blue')
+            plotter.text(state[1]+.5,state[0]+.5,'%.3f' % rewardDict.get(state), ha='center',va='center',fontsize=_TEXT_SIZE,color='blue')
             #https://pyformat.info/
 
         plotter.axis('scaled')                  # Makes sides of squares even

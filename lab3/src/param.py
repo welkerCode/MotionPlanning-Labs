@@ -18,3 +18,6 @@ _EPSILON = .001             # Determines the limit of convergence.  Set to .001 
 # Start using in Part 3 (Policy Iteration)
 _POLICY_INIT = 'direction'  # If 'direction', initial policy will be all one direction, if 'random', then random
 _POLICY_INIT_DIR = 'd'      # Use 'u' for 3.1 and 'd' for 3.2 (just like how the actions are defined in these labs)
+
+# Misc Parameters
+_TEXT_SIZE = 8             # This changes the size of the text that pops up in the values tables

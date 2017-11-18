@@ -23,6 +23,8 @@ def policyIter(gm):
 
     gm.display_PolicyMap(initPolicyDict)
 
+
+    initValDict = initValueTable(gm)
     prevPolicyDict = initPolicyDict
     prevValueDict = initValueTable(gm)
 
@@ -35,7 +37,7 @@ def policyIter(gm):
         iterationCount += 1 # Increment iteration counter
 
         # Perform policy evaluation
-        newValueDict = computeValue(gm, prevPolicyDict, prevValueDict)    # Compute value function when following policy
+        newValueDict = computeValue(gm, prevPolicyDict, prevValueDict, initValDict)    # Compute value function when following policy
 
         # Perform policy improvement
         newPolicyDict = getPolicyDict(newValueDict, gm) # Find new optimal policy using the values computed
@@ -89,7 +91,7 @@ def initRandomPolicy(gm):
     # Return the initial policy dictionary
     return initPolicyDict
 
-def computeValue(gm, policyDictionary, prevValDict):
+def computeValue(gm, policyDictionary, prevValDict, initalValDict):
     newValDict = {}
     # For every location in the map that isn't occupied
     for y in range(0, gm.cols):
@@ -103,7 +105,7 @@ def computeValue(gm, policyDictionary, prevValDict):
                 transList = getTransition(_LIST_SWITCH, _ACTION_TYPE, (x,y), gm.transition, desiredAction, _COMPLETION_PROB)
 
                 sumOfTransition = 0 # The sum of all possible transitions
-                r_s = prevValDict.get((x,y))    # Original reward value
+                r_s = initalValDict.get((x,y))    # Original reward value
                 for eligibleAction in transList:
                     futureReward = prevValDict.get(eligibleAction[0])
                     probability = eligibleAction[1]
