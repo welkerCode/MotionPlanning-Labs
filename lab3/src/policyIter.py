@@ -6,9 +6,9 @@ from param import _ACTION_TYPE
 from param import _LIST_SWITCH
 from param import _DISCOUNT_FACTOR
 from mdp import getTransition
-from valueIter import getPolicyDict
 from valueIter import initValueTable
 from graph_search import *
+from graph_search import _ACTIONS
 
 # This function runs the valueIteration on the specified map
 def policyIter(gm):
@@ -18,14 +18,16 @@ def policyIter(gm):
 
     if _POLICY_INIT == 'direction':
         initPolicyDict = initDirPolicy(gm, _POLICY_INIT_DIR)
+        prevPolicyDict = initDirPolicy(gm, _POLICY_INIT_DIR)
     else:
-        initPolicyDict = initRandomPolicy(gm)
+        prevPolicyDict = initRandomPolicy(gm)
 
-    gm.display_PolicyMap(initPolicyDict)
+
+    gm.display_PolicyMap(prevPolicyDict)
 
 
     initValDict = initValueTable(gm)
-    prevPolicyDict = initPolicyDict
+    #prevPolicyDict = initPolicyDict
     prevValueDict = initValueTable(gm)
 
 
@@ -40,7 +42,7 @@ def policyIter(gm):
         newValueDict = computeValue(gm, prevPolicyDict, prevValueDict, initValDict)    # Compute value function when following policy
 
         # Perform policy improvement
-        newPolicyDict = getPolicyDict(newValueDict, gm) # Find new optimal policy using the values computed
+        newPolicyDict = getPolicyStep(newValueDict, gm, prevPolicyDict) # Find new optimal policy using the values computed
 
         # Check convergence
         convergence = checkPolicyConvergence(gm, prevPolicyDict, newPolicyDict)
@@ -123,3 +125,26 @@ def checkPolicyConvergence(gm, prevPolDict, newPolDict):
                 if prevPolDict.get((x,y)) != newPolDict.get((x,y)):
                     converged = False
     return converged
+
+
+def getPolicyStep(previousIterTable, gm, previousPolicyDict):
+    policyDict = {}
+
+    actions = _ACTIONS
+
+    for y in range(0, gm.cols):
+        for x in range(0, gm.rows):
+            # For every location in the map
+            if gm.occupancy_grid[x][y] == False:
+                previousAction = previousPolicyDict.get((x,y))
+                desiredAction = previousAction
+                newState = gm.transition((x,y),previousAction)
+                desiredActionVal = previousIterTable.get(newState)
+                for action in actions:
+                    newState = gm.transition((x,y),action)
+                    newActionVal = previousIterTable.get(newState)
+                    if desiredActionVal < newActionVal:
+                        desiredActionVal = newActionVal
+                        desiredAction = action
+                policyDict[(x,y)] = desiredAction
+    return policyDict
