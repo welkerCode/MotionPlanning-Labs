@@ -1,0 +1,60 @@
+Proj-3 
+Author: Taylor Welker
+CS
+November 17, 2017
+
+To operate this project you will need to modify the parameters located in the param.py file, and run one of three programs:
+
+- mdpMain.py
+- valueIterMain.py
+- policyIterMain.py
+
+A description of each part of the project is enumerated below.  Descriptions of each parameter can be found in the comments of the param.py file.
+
+
+#########################################################################
+
+Part 1: Markov Decision Process
+
+Simply enter in the correct parameters in the param.py file, and run the mdpMain.py file.
+
+_LIST_SWITCH : should be set to False for this part.
+_ACTION_TYPE : set to 'lateral' for lateral movements only (parts 1.1 and 1.2), 'diagonal' to include diagonal movement (part 1.3), and 'else' for part 1.4
+_COMPETION_PROB : Modifiable to fit the question
+
+
+
+#########################################################################
+
+Part 2: Value Iteration
+
+Simply enter in the correct parameters in the param.py file, and run the valueIterMain.py file.
+
+Parameters pertaining to this part - 
+
+_LIST_SWITCH : should be True for this part
+_ACTION_TYPE : should be 'lateral' for this part
+_COMPETION_PROB : should be .8 for this part
+_GOAL_REWARD : should be 10 for this parts 2.1, 2.2, 2.3, 2.4.  Modify for 2.5
+_CORNER_REWARD : should be 0 for this parts 2.1, 2.2, 2.3, 2.4. Modify for 2.5 (set to -1 for the "-1 everywhere else" test and -5 for the corners test)
+_OTHER_STATE_REWARD : should be 0 for this parts 2.1, 2.2, 2.3, 2.4. Modify for 2.5 (set to -1 for the "-1 everywhere else" and corner tests)
+_DISCOUNT_FACTOR : should be .8 for this part 2.1.  Modifiable for 2.2 and beyond.
+_EPSILON : should be .001.  This helps determine the limit for convergence in the value iteration
+
+#########################################################################
+
+Part 3: Policy Iteration
+
+Simply enter in the correct parameters in the param.py file, and run the policyIterMain.py file.
+
+Parameters pertaining to this part - 
+
+_LIST_SWITCH : should be True for this part
+_ACTION_TYPE : should be 'lateral' for this part
+_COMPETION_PROB : should be .8 for this part
+_GOAL_REWARD : should be 10 for this part
+_CORNER_REWARD : should be 0 for this part
+_OTHER_STATE_REWARD : should be 0 for this part
+_DISCOUNT_FACTOR : should be .8 for this part
+_POLICY_INIT : use 'direction' for parts 3.1 and 3.2 and 'random' for part 3.3
+_POLICY_INIT_DIR : use 'u' for 3.1 and 'd' for 3.2
